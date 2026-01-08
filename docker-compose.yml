@@ -1,0 +1,107 @@
+services:
+  web:
+    container_name: multi_vendor_ecommerce_web
+    build: ./frontend
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    develop:
+      watch:
+        - path: ./frontend/package.json
+          action: rebuild
+        - path: ./frontend/pnpm-lock.yaml
+          action: rebuild
+        - path: ./frontend
+          target: /app
+          action: sync
+    depends_on:
+      - api
+
+  api:
+    container_name: multi_vendor_ecommerce_api
+    build: ./backend
+    ports:
+      - 8000:8000
+    env_file:
+      - ./backend/.env
+    environment:
+      POSTGRES_HOST: db
+      REDIS_HOST: redis
+      S3_ENDPOINT: http://s3:9000
+    develop:
+      watch:
+        - path: ./backend/package.json
+          action: rebuild
+        - path: ./backend/pnpm-lock.yaml
+          action: rebuild
+        - path: ./backend
+          target: /app
+          action: sync
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      s3:
+        condition: service_healthy
+
+  db:
+    container_name: multi_vendor_ecommerce_db
+    image: postgres:latest
+    env_file:
+      - ./backend/.env
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  redis:
+    image: redis/redis-stack:latest
+    container_name: multi_vendor_ecommerce_redis
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    command: redis-stack-server --appendonly yes --requirepass admin
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "admin", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  s3:
+    container_name: multi_vendor_ecommerce_s3
+    image: minio/minio:latest
+    ports:
+      - 9000:9000
+      - 9001:9001
+    env_file: "./backend/.env"
+    command: server /data --console-address ":9001"
+    volumes:
+      - s3_volume:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  postgres_data:
+    name: multi_vendor_ecommerce_db_volume
+  redis_data:
+    name: multi_vendor_ecommerce_redis_volume
+  s3_volume:
+    name: multi_vendor_ecommerce_s3_volume
