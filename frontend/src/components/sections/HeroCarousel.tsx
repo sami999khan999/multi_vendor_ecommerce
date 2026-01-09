@@ -19,7 +19,7 @@ export default function HeroCarousel() {
   return (
     <Carousel
       plugins={[plugin.current]}
-      className="w-full  mx-auto px-4 md:px-0"
+      className="w-full mx-auto md:px-0"
       opts={{
         loop: true,
       }}
@@ -28,32 +28,33 @@ export default function HeroCarousel() {
         {carouselSlides.map((slide, index) => (
           <CarouselItem key={index}>
             <div className={`${slide.bgColor} rounded-xl overflow-hidden`}>
-              <div className="flex flex-col md:flex-row items-center justify-between p-8 md:py-20 md:px-20 gap-6">
-                <div className="flex-1 space-y-8">
+              <div className="flex flex-col md:flex-row items-center md:justify-between p-8 md:p-28 gap-6">
+                <div className="flex-1 space-y-8 md:w-[60%] w-full">
                   <h2
-                    className={`text-3xl md:text-6xl font-semibold line-clamp-2 ${slide.textColor} text-balance`}
+                    className={`text-3xl md:text-6xl w-64 md:w-full font-semibold line-clamp-2 ${slide.textColor} text-balance`}
                   >
                     {slide.title}
                   </h2>
                   <p
-                    className={`${slide.textColor} opacity-80 md:text-2xl text-lg max-w-md line-clamp-2`}
+                    className={`${slide.textColor} opacity-90 md:text-3xl text-lg  line-clamp-2`}
                   >
                     {slide.subtitle}
                   </p>
                   <Button
-                    className={`${slide.buttonColor} text-white text-lg font-medium rounded-full px-10 py-6 duration-300`}
+                    className={`${slide.buttonColor} text-white text-base md:text-lg rounded-full px-7 md:px-12 py-5 md:py-6 duration-300`}
                   >
                     {slide.buttonText}
                   </Button>
                 </div>
-                <div className="flex-1 flex justify-center md:justify-end">
-                  <Image
-                    src={slide.image || "/placeholder.svg"}
-                    alt={slide.title}
-                    width={600}
-                    height={600}
-                    className="max-h-62.5 md:max-h-75 object-contain"
-                  />
+                <div className="md:w-[40%] w-full">
+                  <div className="w-full md:h-[24rem] h-[16rem] relative">
+                    <Image
+                      src={slide.image || "/placeholder.svg"}
+                      alt={slide.title}
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

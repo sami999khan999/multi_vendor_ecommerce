@@ -44,6 +44,8 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
+  --font-inter: var(--font-inter);
 }
 
 :root {
@@ -59,9 +61,9 @@
   --secondary-foreground: #fff8ef;
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.551 0.027 264.364);
-  --accent: #F3FAF2;
+  --accent: #f3faf2;
   --accent-foreground: oklch(0.278 0.033 256.848);
-  --destructive: oklch(0.628 0.258 29.234);
+  --destructive: #ff6300;
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.922 0.007 247.896);
   --input: oklch(0.968 0.007 247.896);
@@ -76,7 +78,7 @@
   --sidebar-foreground: oklch(0.278 0.033 256.848);
   --sidebar-primary: oklch(0.723 0.191 142.542);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.928 0.048 102.784);
+  --sidebar-accent: #fffaf6;
   --sidebar-accent-foreground: oklch(0.278 0.033 256.848);
   --sidebar-border: oklch(0.922 0.007 247.896);
   --sidebar-ring: oklch(0.723 0.191 142.542);
@@ -97,7 +99,7 @@
   --muted-foreground: oklch(0.708 0.02 256.848);
   --accent: oklch(0.75 0.14 91.605);
   --accent-foreground: oklch(0.178 0.02 256.848);
-  --destructive: oklch(0.704 0.191 29.234);
+  --destructive: #ff6300;
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.35 0.025 256.848);
   --input: oklch(0.35 0.025 256.848);
@@ -119,7 +121,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 font-inter;
   }
   body {
     @apply bg-background text-foreground;
@@ -131,8 +133,6 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
   }
 
   @media (min-width: 640px) {

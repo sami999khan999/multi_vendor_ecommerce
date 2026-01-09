@@ -2,30 +2,16 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
+import { brands } from "@/constants";
 import Image from "next/image";
-import Link from "next/link";
-
-const brands = [
-  { name: "Ghorer Bazar", logo: "/assets/brands/brand-1.png" },
-  { name: "Karkuma", logo: "/assets/brands/brand-2.png" },
-  { name: "Naturo", logo: "/assets/brands/brand-3.png" },
-  { name: "Acure Bd", logo: "/assets/brands/brand-1.png" },
-  { name: "Khaas Food", logo: "/assets/brands/brand-2.png" },
-  { name: "Panash Food", logo: "/assets/brands/brand-3.png" },
-  { name: "Ecory", logo: "/assets/brands/brand-1.png" },
-  { name: "Bonobhumi", logo: "/assets/brands/brand-2.png" },
-  { name: "Bonobhumi", logo: "/assets/brands/brand-3.png" },
-  { name: "Bonobhumi", logo: "/assets/brands/brand-1.png" },
-  { name: "Bonobhumi", logo: "/assets/brands/brand-2.png" },
-];
+import { CarouselButton } from "../ui/custom/CarouselButton";
+import SectionTitle from "../ui/custom/SectionTitle";
 
 const TopSellers = () => {
   return (
-    <section className="w-full py-8">
-      <div className="bg-accent rounded-xl p-6 md:p-10">
+    <section className="w-full max-w-full overflow-hidden">
+      <div className="bg-accent rounded-xl p-6 md:p-10 w-full">
         <Carousel
           className="w-full"
           opts={{
@@ -33,45 +19,27 @@ const TopSellers = () => {
             loop: true,
           }}
         >
-          {/* Header Section */}
-          <div className="mb-8 flex items-end justify-between">
-            <div>
-              <h2 className="md:text-4xl text-2xl font-semibold text-foreground">
-                Shop by Brands
-              </h2>
-            </div>
-
-            {/* Manual Navigation Buttons */}
-            <div className="flex items-center gap-3">
-              <Link
-                href="#"
-                className="text-primary hover:underline font-medium"
-              >
-                View All
-              </Link>
-              <div className="flex gap-2 relative">
-                <CarouselPrevious className="static translate-y-0 h-12 w-12 border-gray-200" />
-                <CarouselNext className="static translate-y-0 h-12 w-12 border-gray-200" />
-              </div>
-            </div>
+          <div className="mb-8 flex items-end justify-between space-x-3">
+            <SectionTitle>Shop By Brands</SectionTitle>
+            <CarouselButton />
           </div>
 
-          <CarouselContent>
+          <CarouselContent className="-ml-2 md:-ml-4">
             {brands.map((brand, index) => (
               <CarouselItem
                 key={index}
-                className="basis-1/3 sm:basis-1/4 md:basis-1/5 lg:basis-1/8"
+                className="pl-2 md:pl-4 basis-1/3 sm:basis-1/4 md:basis-1/5 lg:basis-1/6 2xl:basis-[12.5%]"
               >
                 <div className="flex flex-col items-center space-y-3">
-                  <div className="relative h-20 w-20 md:h-32 md:w-32 overflow-hidden rounded-full border border-gray-200 bg-white shadow-sm">
+                  <div className="relative h-20 w-20 md:h-32 md:w-32 overflow-hidden rounded-full bg-white shrink-0">
                     <Image
                       src={brand.logo}
                       alt={brand.name}
                       fill
-                      className="object-contain p-2"
+                      className="object-contain p-4"
                     />
                   </div>
-                  <span className="text-xs md:text-lg font-medium text-foreground text-center">
+                  <span className="text-xs md:text-lg font-medium text-foreground text-center line-clamp-1">
                     {brand.name}
                   </span>
                 </div>
